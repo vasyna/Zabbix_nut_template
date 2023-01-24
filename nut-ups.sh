@@ -283,17 +283,18 @@ if [ $ups = ups.discovery ]; then
     /bin/upsc -l $2 2>&1 | grep -v SSL | while read discovered ; do
         if [[ "$discovered" != "Error: Access denied" ]]; then
                 if [[ "$discovered" != "Error: Connection failure: Connection refused" ]]; then
-                        if [ $first -eq 0 ]; then
-                            echo -e ","
+                        if [[ "$discovered" != "Error: Connection failure: No route to host" ]]; then
+                                if [ $first -eq 0 ]; then
+                                    echo -e ","
+                                fi
+                                echo -en "\t\t{ \"{#UPSNAME}\":\t\"${discovered}\" }"
+                                first=0
                         fi
-                        echo -en "\t\t{ \"{#UPSNAME}\":\t\"${discovered}\" }"
-                        first=0
                 fi
         fi
     done
     echo -e "\n\t]\n}"
 else
-
 
 hostname=$2
 key=$3
