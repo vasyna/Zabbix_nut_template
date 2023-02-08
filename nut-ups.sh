@@ -284,11 +284,13 @@ if [ $ups = ups.discovery ]; then
         if [[ "$discovered" != "Error: Access denied" ]]; then
                 if [[ "$discovered" != "Error: Connection failure: Connection refused" ]]; then
                         if [[ "$discovered" != "Error: Connection failure: No route to host" ]]; then
-                                if [ $first -eq 0 ]; then
-                                    echo -e ","
+                                if [[ "$discovered" != "Error: No such host" ]]; then
+                                        if [ $first -eq 0 ]; then
+                                            echo -e ","
+                                        fi
+                                        echo -en "\t\t{ \"{#UPSNAME}\":\t\"${discovered}\" }"
+                                        first=0
                                 fi
-                                echo -en "\t\t{ \"{#UPSNAME}\":\t\"${discovered}\" }"
-                                first=0
                         fi
                 fi
         fi
